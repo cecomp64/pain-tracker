@@ -39,3 +39,6 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 gem 'bootstrap-generators', '~> 3.3.4'
+
+# For authentication
+gem 'devise'
