@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :activities
-
   resources :pain_points
+  resources :users
 
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
