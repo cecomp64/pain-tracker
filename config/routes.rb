@@ -1,9 +1,14 @@
 Rails.application.routes.draw do
+  get 'user/show'
+
+  get 'user/edit'
+
   resources :activities
   resources :pain_points
-  resources :users
 
   devise_for :users
+  resources :users
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
