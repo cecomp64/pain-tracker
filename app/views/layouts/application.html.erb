@@ -53,6 +53,12 @@
       <% end %>
     <% end %>
 
+    <% heading = yield(:heading) %>
+    <% if heading != '' %>
+      <div class="page-header">
+        <h1><%= heading %></h1>
+      </div>
+    <% end %>
     <%= yield %>
   </div>
 </body>
