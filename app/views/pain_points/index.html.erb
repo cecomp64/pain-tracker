@@ -1,0 +1,35 @@
+<div class="page-header">
+  <%= link_to new_pain_point_path, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Pain point
+  <% end %>
+  <h1>Listing pain_points</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+            <th>User</th>
+            <th>Magnitude</th>
+            <th>Notes</th>
+            <th>Location</th>
+            <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @pain_points) do |pain_point| %>
+            <td><%= pain_point.user_id %></td>
+            <td><%= pain_point.magnitude %></td>
+            <td><%= pain_point.notes %></td>
+            <td><%= pain_point.location_id %></td>
+            <td><%= link_to 'Show', pain_point %></td>
+        <td><%= link_to 'Edit', edit_pain_point_path(pain_point) %></td>
+        <td><%= link_to 'Destroy', pain_point, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>
