@@ -1,10 +1,11 @@
 class PainPointsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_pain_point, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
 
   def index
-    @pain_points = PainPoint.all
+    @pain_points = current_user.pain_points
     respond_with(@pain_points)
   end
 
@@ -22,8 +23,12 @@ class PainPointsController < ApplicationController
 
   def create
     @pain_point = PainPoint.new(pain_point_params)
-    @pain_point.save
-    respond_with(@pain_point)
+    @pain_point.user = current_user
+    if @pain_point.save
+      flash[:success] = 'Added new PainPoint'
+    end
+
+    respond_with(@pain_point, location: pain_points_path)
   end
 
   def update
@@ -42,6 +47,6 @@ class PainPointsController < ApplicationController
     end
 
     def pain_point_params
-      params.require(:pain_point).permit(:user_id, :magnitude, :notes, :location_id)
+      params.require(:pain_point).permit(:user_id, :magnitude, :notes, :location_id, :date)
     end
 end

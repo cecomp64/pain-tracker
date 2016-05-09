@@ -13,15 +13,15 @@
   <% end %>
 
   <div class="form-group">
-    <%= f.label :user_id, class: "col-sm-2 control-label" %>
+    <%= f.label :date, class: "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.number_field :user_id, class: "form-control" %>
+      <%= f.datetime_select :date, class: "form-control" %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :magnitude, class: "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.text_field :magnitude, class: "form-control" %>
+      <%= f.number_field :magnitude, class: "form-control" %>
     </div>
   </div>
   <div class="form-group">
