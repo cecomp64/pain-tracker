@@ -39,3 +39,7 @@
   </table>
 </div>
 </div>
+
+<div class="col-xs-12">
+  <%= line_chart @pain_points.group_by_day(:date).sum(:magnitude) %>
+</div>
