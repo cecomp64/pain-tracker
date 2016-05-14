@@ -1,10 +1,11 @@
 class ActivitiesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_activity, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
 
   def index
-    @activities = Activity.all
+    @activities = current_user.activities
     respond_with(@activities)
   end
 
@@ -22,18 +23,28 @@ class ActivitiesController < ApplicationController
 
   def create
     @activity = Activity.new(activity_params)
+    @activity.user = current_user
     @activity.save
-    respond_with(@activity)
+    respond_to do |format|
+      format.html {redirect_to 'index'}
+      format.js { render_updated_table(@activity, :add) }
+    end
   end
 
   def update
     @activity.update(activity_params)
-    respond_with(@activity)
+    respond_to do |format|
+      format.html {render 'index'}
+      format.js { render_updated_table(@activity, :update) }
+    end
   end
 
   def destroy
     @activity.destroy
-    respond_with(@activity)
+    respond_to do |format|
+      format.html {render 'index'}
+      format.js { render_updated_table(@activity, :delete) }
+    end
   end
 
   private
