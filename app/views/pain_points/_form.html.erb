@@ -30,12 +30,21 @@
       <%= f.text_area :notes, class: "form-control" %>
     </div>
   </div>
+    <!--
   <div class="form-group">
     <%= f.label :location_id, class: "col-sm-2 control-label" %>
     <div class="col-sm-10">
       <%= f.number_field :location_id, class: "form-control" %>
     </div>
   </div>
+    -->
+    <div class="form-group">
+      <%= f.label :activity_id, class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <%= f.text_field :activity, class: "form-control typeahead", placeholder: 'Activity', data: {prefetch:
+        activities_path(format: :json), value: 'id', name: 'activity_id', display: 'name'} %>
+      </div>
+    </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       <%= f.submit class: "btn btn-primary" %>

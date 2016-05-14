@@ -16,4 +16,5 @@
 //= require bootstrap
 //= require highcharts
 //= require chartkick
+//= require twitter/typeahead.min
 //= require_tree .

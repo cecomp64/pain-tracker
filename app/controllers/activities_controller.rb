@@ -2,7 +2,7 @@ class ActivitiesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_activity, only: [:show, :edit, :update, :destroy]
 
-  respond_to :html
+  respond_to :html, :json
 
   def index
     @activities = current_user.activities
@@ -25,6 +25,7 @@ class ActivitiesController < ApplicationController
     @activity = Activity.new(activity_params)
     @activity.user = current_user
     @activity.save
+    @row_partial = 'activities/index_row'
     respond_to do |format|
       format.html {redirect_to 'index'}
       format.js { render_updated_table(@activity, :add) }

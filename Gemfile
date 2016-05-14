@@ -46,3 +46,6 @@ gem 'devise'
 gem 'hightop'
 gem 'groupdate'
 gem 'chartkick'
+
+# Typeahead
+gem 'twitter-typeahead-rails'
