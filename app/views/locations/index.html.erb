@@ -1,0 +1,12 @@
+<div class="page-header">
+  <%= link_to new_location_path, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Location
+  <% end %>
+  <h1>Listing locations</h1>
+</div>
+
+
+<%= render partial: 'layouts/editable_table', locals: {collection: [Location.new] + @locations, attributes:
+    [:name]} %>
+

@@ -3,9 +3,10 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  def render_updated_table(item, action = :add)
-    @item = item
-    @action = action
+  def render_updated_table(options={})
+    @item = options[:item]
+    @action = options[:action]
+    @locals ||= {item: @item, attributes: [:name]}
     render 'layouts/updated_table'
   end
 
@@ -21,6 +22,7 @@ class ApplicationController < ActionController::Base
       filtered_query = filtered_query.where(field => parsed_value)
     end
 
+    @filters = filters
     return filtered_query
   end
 end

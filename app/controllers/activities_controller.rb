@@ -26,16 +26,15 @@ class ActivitiesController < ApplicationController
   def create
     @activity = Activity.new(activity_params)
     @activity.user = current_user
-    @row_partial = 'layouts/editable_row'
     @locals = {item: @activity, attributes: [:name]}
 
     respond_to do |format|
       format.html {redirect_to 'index'}
       if @activity.save
         @message = "Added #{@activity.name}"
-        format.js { render_updated_table(@activity, :add) }
+        format.js { render_updated_table(item: @activity, action: :add) }
       else
-        format.js { render_updated_table(@activity, :error) }
+        format.js { render_updated_table(item: @activity, action: :error) }
       end
     end
   end
@@ -45,7 +44,7 @@ class ActivitiesController < ApplicationController
     @message = "Updated #{@activity.name}"
     respond_to do |format|
       format.html {render 'index'}
-      format.js { render_updated_table(@activity, :update) }
+      format.js { render_updated_table(item: @activity, action: :update) }
     end
   end
 
@@ -53,7 +52,7 @@ class ActivitiesController < ApplicationController
     @activity.destroy
     respond_to do |format|
       format.html {render 'index'}
-      format.js { render_updated_table(@activity, :delete) }
+      format.js { render_updated_table(item: @activity, action: :delete) }
     end
   end
 

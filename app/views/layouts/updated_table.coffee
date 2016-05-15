@@ -3,7 +3,7 @@
 <% if @action == :delete %>
 $('#<%=@item.id%>').remove()
 <% elsif @action == :add && @row_partial%>
-$('#editable_table').append('<%= j render partial: @row_partial, locals: @locals%>')
+$('#editable_table').append('<%= j render(partial: @row_partial, locals: @locals)%>')
 <% end %>
 
 # Highlight the updated rows

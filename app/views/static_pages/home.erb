@@ -1,11 +1,14 @@
 <% provide :title, 'Dashboard' %>
 <% provide :heading, 'Dashboard' %>
+<% provide :active, 'Home' %>
 
 <div class="row">
   <div class="col-xs-12">
-    <ul>
-      <li><%= link_to 'Pain Points', pain_points_path %></li>
-      <li><%= link_to 'Manage Activities', activities_path %></li>
-    </ul>
+    <h2>Pain Over the Last <%=@num_days%> Days</h2>
+    <%= line_chart @pain_points.group_by_day(:date, last: @num_days).sum(:magnitude) %>
+    <h2>Pain Over the Last <%=@num_weeks%> Weeks</h2>
+    <%= line_chart @pain_points.group_by_week(:date, last: @num_weeks).sum(:magnitude) %>
+    <h2>Pain Over the Last <%=@num_months%> Months</h2>
+    <%= line_chart @pain_points.group_by_month(:date, last: @num_months).sum(:magnitude) %>
   </div>
 </div>

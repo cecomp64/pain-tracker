@@ -1,11 +1,6 @@
 <% provide :title, 'Activities' %>
-<div class="page-header">
-  <%= link_to new_activity_path, class: 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-plus"></span>
-    New Activity
-  <% end %>
-  <h1><%= current_user.first_name ? current_user.first_name + "'s" : ''%> Activities</h1>
-</div>
+<% provide :active, 'Activities' %>
+<% provide :heading, current_user.first_name ? current_user.first_name + "'s" : ''%>
 
 <%= render partial: 'layouts/editable_table', locals: {collection: [Activity.new] + @activities, attributes:
     [:name]} %>

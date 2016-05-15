@@ -1,4 +1,5 @@
 <% provide :title, 'Pain Points' %>
+<% provide :active, 'Pain Points' %>
 <% provide :heading, "#{current_user.first_name ? current_user.first_name + "'" : ""} Pain Points" %>
 
 <div class="row">
@@ -35,7 +36,10 @@
                                                                                                            pain_point
                                                                                                                .activity_id})
         %></td>
-        <td><%= pain_point.location_id %></td>
+        <td><%= link_to pain_point.location ? pain_point.location.name : 'None', pain_points_path(filter:
+            {location_id: pain_point.location_id})
+        %></td>
+
         <td><%= pain_point.notes %></td>
         <td><%= link_to 'Show', pain_point %></td>
         <td><%= link_to 'Edit', edit_pain_point_path(pain_point) %></td>
@@ -47,6 +51,8 @@
 </div>
 
 <div class="col-xs-12">
+  <h2><%=filter_title_for(@pain_points.first)%> Pain Over Time</h2>
   <%# Need to "reorder" or, remove the order clause before aggregating because pg sql is no bueno %>
-  <%= line_chart @pain_points.reorder('').group_by_day(:date).sum(:magnitude) %>
+  <%= line_chart @pain_points.reorder('').group(:date).sum(:magnitude) %>
+  <%= bar_chart @pain_points.reorder('').group(:date).sum(:magnitude) %>
 </div>

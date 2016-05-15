@@ -22,7 +22,7 @@ class PainPointsController < ApplicationController
   end
 
   def create
-    @pain_point = PainPoint.new(values)
+    @pain_point = PainPoint.new(pain_point_params)
     @pain_point.user = current_user
     if @pain_point.save
       flash[:success] = 'Added new PainPoint'
@@ -47,8 +47,9 @@ class PainPointsController < ApplicationController
     end
 
     def pain_point_params
-      pl = params.require(:pain_point).permit(:user_id, :magnitude, :notes, :location_id, :date, :activity)
+      pl = params.require(:pain_point).permit(:user_id, :magnitude, :notes, :location_id, :date, :activity, :location)
       pl['activity'] = Activity.where(name: pl[:activity]).first
+      pl['location'] = Location.where(name: pl[:location]).first
       return pl
     end
 
