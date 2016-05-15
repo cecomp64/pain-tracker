@@ -5,7 +5,7 @@ class PainPointsController < ApplicationController
   respond_to :html
 
   def index
-    @pain_points = current_user.pain_points
+    @pain_points = current_user.pain_points.order(:date).includes(:activity)
     respond_with(@pain_points)
   end
 
@@ -22,10 +22,7 @@ class PainPointsController < ApplicationController
   end
 
   def create
-    values = pain_point_params
-    act_str = values.delete('activity')
     @pain_point = PainPoint.new(values)
-    @pain_point.activity = Activity.where(name: act_str).first
     @pain_point.user = current_user
     if @pain_point.save
       flash[:success] = 'Added new PainPoint'
@@ -50,6 +47,9 @@ class PainPointsController < ApplicationController
     end
 
     def pain_point_params
-      params.require(:pain_point).permit(:user_id, :magnitude, :notes, :location_id, :date, :activity)
+      pl = params.require(:pain_point).permit(:user_id, :magnitude, :notes, :location_id, :date, :activity)
+      pl['activity'] = Activity.where(name: pl[:activity]).first
+      return pl
     end
+
 end

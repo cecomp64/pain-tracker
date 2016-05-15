@@ -23,10 +23,15 @@ load_typeahead = ->
       queryTokenizer: Bloodhound.tokenizers.whitespace,
     }
 
-    options['prefetch'] = prefetch if prefetch?
+    options['prefetch'] = {url: prefetch, ttl: 1} if prefetch?
+    #options['remote'] = {url: prefetch} if prefetch?
     #options['remote'] = {url: query+'?query=%QUERY', wildcard: '%QUERY'} if query?
+    #options['remote'] = {url: prefetch+'?query=%QUERY', wildcard: '%QUERY'} if prefetch?
 
     data = new Bloodhound(options)
+
+    # Clear any caches
+    localStorage.clear()
 
     # Initialize typeahead
     $(obj).typeahead(null, {name: name, display: display, source: data})

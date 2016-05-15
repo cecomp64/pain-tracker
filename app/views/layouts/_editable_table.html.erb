@@ -1,4 +1,11 @@
-<%# Expects collection and attributes arguments %>
+<%# Expects the following parameters:
+collection
+attributes
+show_row_partial
+edit_row_partial
+%>
+
+<div id="errors"></div>
 
 <div class="table-responsive">
   <table class="table table-striped table-bordered table-hover">
@@ -14,20 +21,7 @@
 
     <tbody id="editable_table">
     <% (collection || []).each do |item| %>
-      <%= form_for(item, remote: true) do |f|%>
-      <tr id="<%= item.new_record? ? 'new_record' : item.id%>">
-        <% attributes.each do |attr| %>
-          <td><%= f.text_field attr, class: 'form-control' %></td>
-        <% end %>
-        <td><%= f.submit item.new_record? ? 'Submit' : 'Update', class: 'btn btn-primary' %></td>
-        <td>
-          <% if !item.new_record? %>
-            <%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn
-            btn-danger', type: 'button' %>
-          <% end %>
-        </td>
-      </tr>
-      <% end %>
+      <%= render partial: 'layouts/editable_row', locals: {item: item, attributes: attributes} %>
     <% end %>
     </tbody>
   </table>

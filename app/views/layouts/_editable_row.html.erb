@@ -1,0 +1,15 @@
+    <tr id="<%= item.new_record? ? 'new_record' : item.id%>">
+      <%= form_for(item, remote: true) do |f|%>
+      <% attributes.each do |attr| %>
+          <%# attr could be a hash: :name, :type, :class, :data %>
+          <td><%= f.text_field attr, class: 'form-control' %></td>
+      <% end %>
+      <td><%= f.submit item.new_record? ? 'Submit' : 'Update', class: 'btn btn-primary' %></td>
+      <td>
+        <% if !item.new_record? %>
+            <%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn
+            btn-danger', type: 'button', remote: true %>
+        <% end %>
+      </td>
+      <% end %>
+    </tr>

@@ -5,7 +5,9 @@ class ActivitiesController < ApplicationController
   respond_to :html, :json
 
   def index
+    query = params['query']
     @activities = current_user.activities
+    @activities = @activities.where('lower(name) LIKE ?', "%#{query.downcase}%") if query
     respond_with(@activities)
   end
 
@@ -24,16 +26,23 @@ class ActivitiesController < ApplicationController
   def create
     @activity = Activity.new(activity_params)
     @activity.user = current_user
-    @activity.save
-    @row_partial = 'activities/index_row'
+    @row_partial = 'layouts/editable_row'
+    @locals = {item: @activity, attributes: [:name]}
+
     respond_to do |format|
       format.html {redirect_to 'index'}
-      format.js { render_updated_table(@activity, :add) }
+      if @activity.save
+        @message = "Added #{@activity.name}"
+        format.js { render_updated_table(@activity, :add) }
+      else
+        format.js { render_updated_table(@activity, :error) }
+      end
     end
   end
 
   def update
     @activity.update(activity_params)
+    @message = "Updated #{@activity.name}"
     respond_to do |format|
       format.html {render 'index'}
       format.js { render_updated_table(@activity, :update) }
