@@ -5,7 +5,7 @@ class PainPointsController < ApplicationController
   respond_to :html
 
   def index
-    @pain_points = current_user.pain_points.order(:date).includes(:activity)
+    @pain_points = filter current_user.pain_points.order(:date).includes(:activity)
     respond_with(@pain_points)
   end
 

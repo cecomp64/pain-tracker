@@ -29,8 +29,12 @@
     <tbody>
       <%= content_tag_for(:tr, @pain_points) do |pain_point| %>
         <td><%= date_format pain_point.date %></td>
-        <td><%= pain_point.magnitude %></td>
-        <td><%= pain_point.activity ? pain_point.activity.name : 'None'%></td>
+        <td><%= link_to pain_point.magnitude, pain_points_path(filter: {magnitude: pain_point.magnitude}) %></td>
+        <td><%= link_to pain_point.activity ? pain_point.activity.name : 'None', pain_points_path(filter:
+                                                                                                      {activity_id:
+                                                                                                           pain_point
+                                                                                                               .activity_id})
+        %></td>
         <td><%= pain_point.location_id %></td>
         <td><%= pain_point.notes %></td>
         <td><%= link_to 'Show', pain_point %></td>

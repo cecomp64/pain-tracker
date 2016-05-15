@@ -30,11 +30,18 @@ load_typeahead = ->
 
     data = new Bloodhound(options)
 
+    # Show all options when the field is selected
+    defaults = (q,sync) ->
+      if q == ''
+        sync(data.index.all())
+      else
+        data.search(q, sync)
+
     # Clear any caches
     localStorage.clear()
 
     # Initialize typeahead
-    $(obj).typeahead(null, {name: name, display: display, source: data})
+    $(obj).typeahead({minLength: 0}, {name: name, display: display, source: defaults})
 
     console.log('Created typeahead')
 
