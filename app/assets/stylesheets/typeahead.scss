@@ -4,7 +4,6 @@
   text-align: left;
 }
 
-
 .table-of-contents li {
   display: inline-block;
   *display: inline;
@@ -131,7 +130,8 @@ p + p {
   border-bottom: 1px solid #ccc;
 }
 
-#scrollable-dropdown-menu .tt-menu {
+// I think I always want this...
+.tt-menu {
   max-height: 150px;
   overflow-y: auto;
 }

@@ -11,6 +11,7 @@ load_typeahead = ->
     value = $(obj).data('value') # Value to be used for form
     display = $(obj).data('display') # Value to be used for display
     name = $(obj).data('name') # Name...?
+    local_data = $(obj).data('local')
 
     console.log('name: ' + name)
     console.log('query: ' + query)
@@ -20,9 +21,11 @@ load_typeahead = ->
 
     options = {
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace(display),
+      #datumTokenizer: Bloodhound.tokenizers.whitespace,
       queryTokenizer: Bloodhound.tokenizers.whitespace,
     }
 
+    #options['local'] = local_data if local_data?
     options['prefetch'] = {url: prefetch, ttl: 1} if prefetch?
     #options['remote'] = {url: prefetch} if prefetch?
     #options['remote'] = {url: query+'?query=%QUERY', wildcard: '%QUERY'} if query?
@@ -41,7 +44,9 @@ load_typeahead = ->
     localStorage.clear()
 
     # Initialize typeahead
-    $(obj).typeahead({minLength: 0}, {name: name, display: display, source: defaults})
+    $(obj).typeahead({hint: true, highlight: true, minLength: 0},
+      #{name: name, limit: -1, source: substringMatcher(local_data)})
+      {name: name, limit: 1000000, display: display, source: defaults})
 
     console.log('Created typeahead')
 
