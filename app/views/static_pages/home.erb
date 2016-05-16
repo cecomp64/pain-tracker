@@ -3,12 +3,11 @@
 <% provide :active, 'Home' %>
 
 <div class="row">
-  <div class="col-xs-12">
-    <h2>Pain Over the Last <%=@num_days%> Days</h2>
-    <%= line_chart @pain_points.group_by_day(:date, last: @num_days).sum(:magnitude) %>
-    <h2>Pain Over the Last <%=@num_weeks%> Weeks</h2>
-    <%= line_chart @pain_points.group_by_week(:date, last: @num_weeks).sum(:magnitude) %>
-    <h2>Pain Over the Last <%=@num_months%> Months</h2>
-    <%= line_chart @pain_points.group_by_month(:date, last: @num_months).sum(:magnitude) %>
-  </div>
+  <% @charts.each do |period, length| %>
+      <div class="col-xs-12">
+        <h2>Pain Over the Last <%= pluralize(length, period.to_s.capitalize) %></h2>
+        <%= line_chart @pain_points.send("group_by_#{period.to_s.singularize}", :date, last: length,
+            default_value: nil).sum(:magnitude).reject { |_, v| v.nil? } %>
+      </div>
+  <% end %>
 </div>

@@ -1,6 +1,6 @@
 <% provide :title, 'Activities' %>
 <% provide :active, 'Activities' %>
-<% provide :heading, current_user.first_name ? current_user.first_name + "'s" : ''%>
+<% provide :heading, (current_user.first_name ? current_user.first_name + "'s" : '') + ' Activities'%>
 
 <%= render partial: 'layouts/editable_table', locals: {collection: [Activity.new] + @activities, attributes:
     [:name]} %>

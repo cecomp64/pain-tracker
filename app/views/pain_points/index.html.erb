@@ -3,12 +3,13 @@
 <% provide :heading, "#{current_user.first_name ? current_user.first_name + "'" : ""} Pain Points" %>
 
 <div class="row">
-<div class="col-xs-12 button-heading">
+<div class="col-xs-6 button-heading">
   <%= link_to new_pain_point_path, class: 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
-    New Pain point
+    Add Pain Point
   <% end %>
 </div>
+
 </div>
 
 <div class="col-xs-12">
@@ -49,10 +50,17 @@
   </table>
 </div>
 </div>
-
+  <div class="col-xs-12">
+    <%= form_tag(pain_points_upload_path, method: :post, multipart: true) do %>
+      <%= file_field_tag(:file) %>
+        <%= submit_tag('Upload CSV', class: 'btn btn-primary') %>
+    <% end %>
+  </div>
+<%if !@pain_points.is_a?(Array) %>
 <div class="col-xs-12">
   <h2><%=filter_title_for(@pain_points.first)%> Pain Over Time</h2>
   <%# Need to "reorder" or, remove the order clause before aggregating because pg sql is no bueno %>
   <%= line_chart @pain_points.reorder('').group(:date).sum(:magnitude) %>
   <%= bar_chart @pain_points.reorder('').group(:date).sum(:magnitude) %>
 </div>
+<% end %>
