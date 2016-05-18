@@ -48,8 +48,8 @@ class PainPointsController < ApplicationController
 
     def pain_point_params
       pl = params.require(:pain_point).permit(:user_id, :magnitude, :notes, :location_id, :date, :activity, :location)
-      pl['activity'] = Activity.where(name: pl[:activity]).first
-      pl['location'] = Location.where(name: pl[:location]).first
+      pl['activity'] = Activity.find_or_create_by(name: pl[:activity])
+      pl['location'] = Location.find_or_create_by(name: pl[:location])
       return pl
     end
 

@@ -1,6 +1,7 @@
 require 'upload_helper'
 
 class StaticPagesController < ApplicationController
+  before_action :authenticate_user!
   def home
     @pain_points = current_user.pain_points
     @charts = {days: 7, weeks: 4, months: 12}
