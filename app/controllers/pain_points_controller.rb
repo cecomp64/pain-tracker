@@ -2,11 +2,16 @@ class PainPointsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_pain_point, only: [:show, :edit, :update, :destroy]
 
-  respond_to :html
+  respond_to :html, :js
 
   def index
     @pain_points = filter current_user.pain_points.order(:date).includes(:activity)
-    respond_with(@pain_points)
+    @pain_points_paginated = @pain_points.page(params[:page]).per(10)
+
+    respond_to do |format|
+      format.html { }
+      format.js { }
+    end
   end
 
   def show
