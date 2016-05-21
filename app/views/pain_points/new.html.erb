@@ -1,9 +1,5 @@
-<div class="page-header">
-  <%= link_to pain_points_path, class: 'btn btn-default' do %>
-    <span class="glyphicon glyphicon-list-alt"></span>
-    Back
-  <% end %>
-  <h1>New pain_point</h1>
-</div>
+<% provide :title, 'Record' %>
+<% provide :heading, 'Record PainPoint' %>
+<% provide :active, 'Record Pain' %>
 
 <%= render 'form' %>

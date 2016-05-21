@@ -1,7 +1,8 @@
 require 'upload_helper'
 
 class StaticPagesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :about
+
   def home
     @pain_points = current_user.pain_points
     @charts = {days: 7, weeks: 4, months: 12}
@@ -9,6 +10,10 @@ class StaticPagesController < ApplicationController
     respond_to do |format|
         format.html { render :home}
     end
+  end
+
+  def about
+
   end
 
   def upload

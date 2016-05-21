@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   post 'upload' => 'static_pages#upload', as: :pain_points_upload
+  get 'about' => 'static_pages#about', as: :about
 
   # You can have the root of your site routed with "root"
   root 'static_pages#home'
