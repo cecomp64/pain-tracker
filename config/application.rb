@@ -7,6 +7,9 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 module PainTracker
+  # Some useful Constants
+  PIE_CHART_NO_LEGEND = {plotOptions: {pie: {dataLabels: {enabled: false}, showInLegend: false}}}
+
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

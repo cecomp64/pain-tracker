@@ -22,7 +22,7 @@
             <% term_data = @pain_points.filter(max_date: today, min_date: today-length.send(period)).joins(term)
                 .group("#{term.to_s.pluralize}.name").sum(:magnitude).sort{|(k,v),(j,u)| u<=>v} %>
             <%= chart_or_banner term_data, pie_chart(term_data,
-                                                         library: { plotOptions: {pie: {dataLabels: {enabled: false}, showInLegend: false}}})%>
+                                                         library: PainTracker::PIE_CHART_NO_LEGEND)%>
           </div>
       <% end %>
   <% end %>
