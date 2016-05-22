@@ -16,7 +16,7 @@
   </div>
 <%if !@pain_points.is_a?(Array) %>
 <div class="col-xs-12">
-  <h2><%=filter_title_for(@pain_points.first)%> Pain Over Time</h2>
+  <h2><%=filter_title_for(@pain_points.first, @filter)%> Pain Over Time</h2>
   <%# Need to "reorder" or, remove the order clause before aggregating because pg sql is no bueno %>
   <%= line_chart @pain_points.reorder('').group(:date).sum(:magnitude) %>
   <%= bar_chart @pain_points.reorder('').group(:date).sum(:magnitude) %>

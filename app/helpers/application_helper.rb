@@ -3,13 +3,13 @@ module ApplicationHelper
     date.strftime('%h %d, %Y %H:%M %Z')
   end
 
-  def filter_title_for(item)
-    return '' if @filters.nil?
-    titles = @filters.map do |filter, value|
+  def filter_title_for(item, filters)
+    return '' if filters.nil?
+    titles = filters.map do |filter, value|
       func = filter.sub('_id', '')
       if item.respond_to?(func)
         if item.send(func).respond_to?(:name)
-          item.send(func).send(:name)
+          item.send(func).send(:name).titleize
         else
           ''
         end
@@ -17,5 +17,14 @@ module ApplicationHelper
     end
 
     return titles.join(',')
+  end
+
+  def chart_or_banner(data, chart)
+    if data.empty?
+      banner = '<div class="no-data">No Data Available</div>'
+      return banner.html_safe
+    end
+
+    return chart
   end
 end

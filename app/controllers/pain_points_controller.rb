@@ -5,7 +5,8 @@ class PainPointsController < ApplicationController
   respond_to :html, :js
 
   def index
-    @pain_points = filter current_user.pain_points.order(:date).includes(:activity)
+    @filter = params[:filter]
+    @pain_points = current_user.pain_points.order(:date).includes(:activity).filter(@filter)
     @pain_points_paginated = @pain_points.page(params[:page]).per(10)
 
     respond_to do |format|
