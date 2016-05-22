@@ -1,7 +1,9 @@
 
 load_date_picker = ->
   console.log('Wuuut')
-  date = new Date()
+  #date = new Date()
+  date = $('#datetimepicker12').data('date')
+  console.log('Date: ' + date)
 
   $('#datetimepicker12').datetimepicker({
     inline: true,

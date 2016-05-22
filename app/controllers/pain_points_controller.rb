@@ -38,7 +38,23 @@ class PainPointsController < ApplicationController
 
   def update
     @pain_point.update(pain_point_params)
-    respond_with(@pain_point)
+
+    respond_to do |format|
+      format.html do
+        if @pain_point.errors.any?
+          render :edit
+          #redirect_to edit_pain_point_path(@pain_point)
+          return
+        else
+          flash[:success] = 'Updated PainPoint'
+          redirect_to pain_points_path
+          return
+        end
+      end
+    end
+
+    #respond_with(@pain_point)
+    #respond_with(@pain_point, location: pain_points_path)
   end
 
   def destroy
@@ -53,8 +69,8 @@ class PainPointsController < ApplicationController
 
     def pain_point_params
       pl = params.require(:pain_point).permit(:user_id, :magnitude, :notes, :location_id, :date, :activity, :location)
-      pl['activity'] = Activity.find_or_create_by(name: pl[:activity])
-      pl['location'] = Location.find_or_create_by(name: pl[:location])
+      pl['activity'] = Activity.find_or_create_by(name: params[:activity], user: current_user)
+      pl['location'] = Location.find_or_create_by(name: params[:location])
       return pl
     end
 

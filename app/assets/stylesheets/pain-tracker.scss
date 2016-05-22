@@ -7,3 +7,19 @@
 .updated-row {
   background: $alert-success-bg;
 }
+
+.divider {
+  border-bottom: 1px solid white;
+}
+
+.no-data {
+  color: tomato;
+  width: 100%;
+  background: lightgrey;
+  font-size: 80px;
+  text-align: center;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  opacity: 0.5;
+  -moz-opacity: 0.5;
+}

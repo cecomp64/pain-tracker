@@ -12,12 +12,14 @@ load_typeahead = ->
     display = $(obj).data('display') # Value to be used for display
     name = $(obj).data('name') # Name...?
     local_data = $(obj).data('local')
+    init = $(obj).data('init')
 
     console.log('name: ' + name)
     console.log('query: ' + query)
     console.log('prefetch: ' + prefetch)
     console.log('display: ' + display)
     console.log('value: ' + value)
+    console.log('default: ' + init)
 
     options = {
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace(display),
@@ -47,6 +49,9 @@ load_typeahead = ->
     $(obj).typeahead({hint: true, highlight: true, minLength: 0},
       #{name: name, limit: -1, source: substringMatcher(local_data)})
       {name: name, limit: 1000000, display: display, source: defaults})
+
+    # Set default value
+    $(obj).typeahead('val', init)
 
     console.log('Created typeahead')
 
