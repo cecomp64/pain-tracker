@@ -7,7 +7,7 @@ class PainPointsController < ApplicationController
   def index
     @filter = params[:filter]
     @pain_points = current_user.pain_points.includes(:activity).filter(@filter)
-    @pain_points_paginated = @pain_points.order(:date).page(params[:page]).per(10)
+    @pain_points_paginated = @pain_points.order(date: :desc).page(params[:page]).per(10)
 
     respond_to do |format|
       format.html { }
