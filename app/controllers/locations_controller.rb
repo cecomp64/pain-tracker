@@ -54,6 +54,8 @@ class LocationsController < ApplicationController
     end
 
     def location_params
-      params.require(:location).permit(:name, :area_id, :x_pos, :y_pos, :z_pos)
+      lp = params.require(:location).permit(:name, :area_id, :x_pos, :y_pos, :z_pos)
+      lp[:name] = lp[:name].strip if(lp[:name])
+      return lp
     end
 end

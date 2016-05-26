@@ -63,15 +63,39 @@ class PainPointsController < ApplicationController
     respond_with(@pain_point)
   end
 
+  def cleanup_data
+
+  end
   private
+    def find_duplicates(classname)
+      dups = []
+      symbol = classname.to_s.downcase.to_sym
+      classname.all.each{|a| duplicates += classname.where(name: a.name.strip).where.not(id: a.id).map{|a| a.name.strip}.uniq}
+
+      # Loop through each duplicate and replace with first instance
+      dups.each do |dname|
+        al = classname.where("name LIKE '%#{dname}%'")
+        next if al.size == 0
+        master = al.delete(0)
+        master.update_attribute(:name, dname.strip)
+
+        # Replace existing references to duplicates with master
+        al.each do |act|
+          ppl = PainPoint.where(symbol => act)
+          ppl.each{|pp| pp.update_attribute(:activity, master)}
+          act.destroy
+        end
+      end
+    end
+
     def set_pain_point
       @pain_point = PainPoint.find(params[:id])
     end
 
     def pain_point_params
       pl = params.require(:pain_point).permit(:user_id, :magnitude, :notes, :location_id, :date, :activity, :location)
-      pl['activity'] = Activity.find_or_create_by(name: params[:activity], user: current_user)
-      pl['location'] = Location.find_or_create_by(name: params[:location])
+      pl['activity'] = Activity.find_or_create_by(name: params[:activity].strip, user: current_user)
+      pl['location'] = Location.find_or_create_by(name: params[:location].strip)
       return pl
     end
 

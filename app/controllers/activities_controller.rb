@@ -62,6 +62,7 @@ class ActivitiesController < ApplicationController
     end
 
     def activity_params
-      params.require(:activity).permit(:name)
+      ap = params.require(:activity).permit(:name)
+      ap[:name] = ap[:name].strip if(ap[:name])
     end
 end
