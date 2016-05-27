@@ -5,7 +5,6 @@
 <div class="row">
 
   <%= render 'index' %>
-
   <div class="col-xs-12">
     <div class="form-group form-inline">
       <%= form_tag(pain_points_upload_path, method: :post, multipart: true) do %>
@@ -14,6 +13,11 @@
       <% end %>
     </div>
   </div>
+
+  <div class="col-xs-12">
+    <%= link_to 'Cleanup Duplicates', cleanup_path %>
+  </div>
+
   <%if !@pain_points.is_a?(Array) %>
       <div class="col-xs-12">
         <h2><%=filter_title_for(@pain_points.first, @filter)%> Pain Over Time</h2>

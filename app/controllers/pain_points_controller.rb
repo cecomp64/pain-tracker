@@ -64,20 +64,28 @@ class PainPointsController < ApplicationController
   end
 
   def cleanup_data
-
+    remove_duplicates Activity
+    remove_duplicates Location
+    redirect_to pain_points_path
   end
+
   private
-    def find_duplicates(classname)
-      dups = []
+
+    # Merge activities and locations that only differ in whitespace
+    # TODO: Also look for case-insensitive matches
+    def remove_duplicates(classname)
+      duplicates = []
       symbol = classname.to_s.downcase.to_sym
-      classname.all.each{|a| duplicates += classname.where(name: a.name.strip).where.not(id: a.id).map{|a| a.name.strip}.uniq}
+      # Strip out all the white space
+      classname.all.each{|a| a.update_attribute :name, a.name.strip}
+      # Now look for duplicates
+      classname.all.each{|a| duplicates += classname.where("name ILIKE '#{a.name.strip}'").where.not(id: a.id).map{|a| a.name.strip.upcase}.uniq}
 
       # Loop through each duplicate and replace with first instance
-      dups.each do |dname|
-        al = classname.where("name LIKE '%#{dname}%'")
+      duplicates.uniq.each do |dname|
+        al = classname.where("name ILIKE '#{dname}'").to_a
         next if al.size == 0
-        master = al.delete(0)
-        master.update_attribute(:name, dname.strip)
+        master = al.delete(al.first)
 
         # Replace existing references to duplicates with master
         al.each do |act|

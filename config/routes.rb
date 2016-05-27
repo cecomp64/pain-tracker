@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   post 'upload' => 'static_pages#upload', as: :pain_points_upload
   get 'about' => 'static_pages#about', as: :about
+  get 'cleanup' => 'pain_points#cleanup_data', as: :cleanup
 
   # You can have the root of your site routed with "root"
   root 'static_pages#home'
