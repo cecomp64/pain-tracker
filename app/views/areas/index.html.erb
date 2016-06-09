@@ -1,0 +1,29 @@
+<div class="page-header">
+  <%= link_to new_area_path, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Area
+  <% end %>
+  <h1>Listing areas</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+            <th>Name</th>
+            <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @areas) do |area| %>
+            <td><%= area.name %></td>
+            <td><%= link_to 'Show', area %></td>
+        <td><%= link_to 'Edit', edit_area_path(area) %></td>
+        <td><%= link_to 'Destroy', area, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>

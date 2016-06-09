@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :areas
+
   resources :locations
 
   get 'user/show'
