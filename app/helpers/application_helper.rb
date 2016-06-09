@@ -16,7 +16,7 @@ module ApplicationHelper
       end
     end
 
-    return titles.join(',')
+    return titles.select{|t| t!= nil}.join(',')
   end
 
   def chart_or_banner(data, chart)

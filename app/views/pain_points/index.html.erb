@@ -4,6 +4,11 @@
 
 <div class="row">
 
+  <div class="col-xs-12">
+    <h2>Total Pain - <%= @pain_points.sum(:magnitude) %></h2>
+    <%= link_to 'Clear Filters', pain_points_path %>
+  </div>
+
   <%= render 'index' %>
   <div class="col-xs-12">
     <div class="form-group form-inline">

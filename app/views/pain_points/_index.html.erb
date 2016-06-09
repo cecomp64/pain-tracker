@@ -20,7 +20,12 @@
 
       <tbody>
       <%= content_tag_for(:tr, @pain_points_paginated) do |pain_point| %>
-          <td><%= date_format pain_point.date %></td>
+      <%
+        d = pain_point.date
+        min_date = DateTime.new(d.year, d.month, d.day, 0, 0, 0, d.zone).utc
+        max_date = DateTime.new(d.year, d.month, d.day, 23, 59, 59, d.zone).utc
+      %>
+          <td><%= link_to date_format(pain_point.date), pain_points_path(filter: {min_date: min_date, max_date: max_date}) %></td>
           <td><%= link_to pain_point.magnitude, pain_points_path(filter: {magnitude: pain_point.magnitude}) %></td>
           <td><%= link_to pain_point.activity ? pain_point.activity.name : 'None', pain_points_path(filter:
                                                                                                         {activity_id:
