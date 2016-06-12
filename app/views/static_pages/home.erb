@@ -20,7 +20,7 @@
 
 
         <%= chart_or_banner pain_data, line_chart([{name: 'Cumulative Pain', data: pain_data, yAxis: 0}, {name: 'Number of Activities', data: activity_data, yAxis: 1}],
-                                                  library: LINE_CHART_DUAL_AXIS, height: '400px') %>
+                                                  library: PainTracker::LINE_CHART_DUAL_AXIS, height: '400px') %>
       </div>
 
       <% [:activity, :location].each do |term| %>
