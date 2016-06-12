@@ -9,6 +9,10 @@ Bundler.require(*Rails.groups)
 module PainTracker
   # Some useful Constants
   PIE_CHART_NO_LEGEND = {plotOptions: {pie: {dataLabels: {enabled: false}, showInLegend: false}}}
+  LINE_CHART_DUAL_AXIS = {yAxis: [{title: {text: 'Pain Magnitude', style: {color: 'Highcharts.getOptions().colors[0]'}}},
+                                  {title: {text: 'Amount of Activity', style: {color: 'Highcharts.getOptions().colors[1]'}}, opposite: true,
+                                   labels: {format: '{value}'}}],
+                          tooltip: {shared: true}}
 
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

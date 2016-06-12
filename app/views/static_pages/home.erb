@@ -20,12 +20,7 @@
 
 
         <%= chart_or_banner pain_data, line_chart([{name: 'Cumulative Pain', data: pain_data, yAxis: 0}, {name: 'Number of Activities', data: activity_data, yAxis: 1}],
-                                                  library: {
-                                                    #legend: {layout: 'vertical', align: 'right', floating: true, y: -20},
-                                                    yAxis: [{title: {text: 'Pain Magnitude', style: {color: 'Highcharts.getOptions().colors[0]'}}},
-                                                            {title: {text: 'Amount of Activity', style: {color: 'Highcharts.getOptions().colors[1]'}}, opposite: true,
-                                                              labels: {format: '{value}'}}],
-                                                    tooltip: {shared: true}}, height: '400px') %>
+                                                  library: LINE_CHART_DUAL_AXIS, height: '400px') %>
       </div>
 
       <% [:activity, :location].each do |term| %>
