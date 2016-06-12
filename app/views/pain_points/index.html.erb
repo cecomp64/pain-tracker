@@ -3,6 +3,10 @@
 <% provide :heading, "#{current_user.first_name ? current_user.first_name + "'" : ""} Pain Points" %>
 
 <div class="row">
+  <div class="col-xs-12">
+    <%= form_tag(pain_points_path) do %>
+    <% end %>
+  </div>
 
   <div class="col-xs-12">
     <h2>Total Pain - <%= @pain_points.sum(:magnitude) %></h2>
