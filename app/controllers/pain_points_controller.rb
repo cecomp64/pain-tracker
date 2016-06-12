@@ -69,6 +69,13 @@ class PainPointsController < ApplicationController
     redirect_to pain_points_path
   end
 
+  def tag_list
+    @params = params[:tag_list]
+    @params[:list] ||= []
+    #@class = @params[:name] ? @params[:name].capitalize.constantize : nil
+    #@object = @class.where(name: @params[:tag]).first if @class
+  end
+
   private
 
     # Merge activities and locations that only differ in whitespace

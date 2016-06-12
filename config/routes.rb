@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
+  post 'tag_list' => 'pain_points#tag_list', as: :tag_list
+
   post 'upload' => 'static_pages#upload', as: :pain_points_upload
   get 'about' => 'static_pages#about', as: :about
   get 'cleanup' => 'pain_points#cleanup_data', as: :cleanup

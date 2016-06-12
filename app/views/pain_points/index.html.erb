@@ -4,13 +4,64 @@
 
 <div class="row">
   <div class="col-xs-12">
-    <%= form_tag(pain_points_path) do %>
-    <% end %>
+    <% @filter ||= {} %>
+    <div class="row">
+      <%= form_tag(pain_points_path) do %>
+          <div class="col-xs-12">
+            <h2 class="filter-heading">Filters</h2>
+            <%= link_to 'Clear Filters', pain_points_path %>
+          </div>
+          <div class="col-xs-6 col-sm-6">
+            <div class="datetimepicker input-group date" data-date="<%= @filter[:min_date] || @pain_points.first.date || DateTime.now %>" data-inline="false">
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar">MinDate</span>
+              </span>
+              <input type='text' class="form-control" name="filter[:min_date]"/>
+            </div>
+          </div>
+          <div class="col-xs-6 col-sm-6">
+            <div class="datetimepicker input-group date" data-date="<%= @filter[:max_date] || @pain_points.last.date || DateTime.now %>" data-inline="false">
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar">MaxDate</span>
+              </span>
+              <input type='text' class="form-control" name="filter[:max_date]"/>
+            </div>
+          </div>
+          <div class="col-xs-6 tag-list" id="activity-list">
+          </div>
+
+          <div class="col-xs-6 tag-list" id="location-list">
+          </div>
+
+      <% end %>
+      <div class="col-xs-6">
+        <%= form_tag tag_list_path, remote: true, id: 'activity-form' do %>
+            <%= hidden_field_tag 'tag_list[action]', 'add' %>
+            <%= hidden_field_tag 'tag_list[name]', 'activity' %>
+              <%= text_field_tag 'tag_list[tag]', nil,
+                            class: 'form-control typeahead', placeholder: 'Activity', data: {
+                              prefetch: activities_path(format: :json), value: 'id', name: 'activity_id', display: 'name',
+                              local: current_user.activities.map{|a| a.name}.to_json, init: nil} %>
+              <%= submit_tag 'Add Activity to Filters', class: 'btn btn-default form-control' %>
+        <% end %>
+      </div>
+      <div class="col-xs-6">
+        <%= form_tag tag_list_path, remote: true, id: 'activity-form' do %>
+            <%= hidden_field_tag 'tag_list[action]', 'add' %>
+            <%= hidden_field_tag 'tag_list[name]', 'location' %>
+            <%= text_field_tag 'tag_list[tag]', nil,
+                            class: 'form-control typeahead',
+                            placeholder: 'Location', data: {
+                              prefetch: locations_path(format: :json), value: 'id', name: 'location_id', display: 'name',
+                              local: Location.all.map{|a| a.name}.to_json, init: nil } %>
+            <%= submit_tag 'Add Location to Filters', class: 'btn btn-default form-control' %>
+        <% end %>
+      </div>
+    </div>
   </div>
 
   <div class="col-xs-12">
     <h2>Total Pain - <%= @pain_points.sum(:magnitude) %></h2>
-    <%= link_to 'Clear Filters', pain_points_path %>
   </div>
 
   <%= render 'index' %>
