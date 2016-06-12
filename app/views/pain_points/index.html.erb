@@ -27,10 +27,10 @@
               <input type='text' class="form-control" name="filter[:max_date]"/>
             </div>
           </div>
-          <div class="col-xs-6 tag-list" id="activity-list">
+          <div class="col-xs-6 hidden" id="activity-list">
           </div>
 
-          <div class="col-xs-6 tag-list" id="location-list">
+          <div class="col-xs-6 hidden" id="location-list">
           </div>
 
       <% end %>
@@ -46,7 +46,7 @@
         <% end %>
       </div>
       <div class="col-xs-6">
-        <%= form_tag tag_list_path, remote: true, id: 'activity-form' do %>
+        <%= form_tag tag_list_path, remote: true, id: 'location-form' do %>
             <%= hidden_field_tag 'tag_list[action]', 'add' %>
             <%= hidden_field_tag 'tag_list[name]', 'location' %>
             <%= text_field_tag 'tag_list[tag]', nil,

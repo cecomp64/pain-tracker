@@ -72,8 +72,11 @@ class PainPointsController < ApplicationController
   def tag_list
     @params = params[:tag_list]
     @params[:list] ||= []
-    #@class = @params[:name] ? @params[:name].capitalize.constantize : nil
-    #@object = @class.where(name: @params[:tag]).first if @class
+    @class = @params[:name] ? @params[:name].capitalize.constantize : nil
+    # Check that the item actually exists
+    @object = @class.where(name: @params[:tag]).first if @class
+    # Don't add duplicate tags
+    @object = nil if(@params[:list].map{|i,v| v}.include?(@params[:tag]))
   end
 
   private
