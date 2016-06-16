@@ -24,8 +24,9 @@ class PainPointsController < ApplicationController
     min_point = current_user.pain_points.order(date: :asc).first
     max_point = current_user.pain_points.order(date: :asc).last
 
-    @filter[:min_date] ||= min_point ? min_point.date : nil
-    @filter[:max_date] ||= max_point ? max_point.date : nil
+    # Give some padding just because <= doesn't seem to be equal...
+    @filter[:min_date] ||= min_point ? min_point.date - 1.minute : nil
+    @filter[:max_date] ||= max_point ? max_point.date + 1.minute : nil
 
     respond_to do |format|
       format.html { }
