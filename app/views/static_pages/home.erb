@@ -9,28 +9,8 @@
   <% @charts.each do |period, length| %>
       <div class="col-xs-12">
         <h2>Pain Over the Last <%= pluralize(length, period.to_s.capitalize) %></h2>
-        <h3>Total Pain</h3>
-        <%
-          pain_data = @pain_points.send("group_by_#{period.to_s.singularize}", :date, last: length,
-            default_value: nil).sum(:magnitude).reject { |_, v| v.nil? }
-
-          activity_data = @pain_points.where.not(activity: nil).send("group_by_#{period.to_s.singularize}", :date, last: length,
-                                                                     default_value: nil).count.reject{|_,v| v.nil?}
-        %>
-
-
-        <%= chart_or_banner pain_data, line_chart([{name: 'Cumulative Pain', data: pain_data, yAxis: 0}, {name: 'Number of Activities', data: activity_data, yAxis: 1}],
-                                                  library: LINE_CHART_DUAL_AXIS, height: '400px') %>
       </div>
 
-      <% [:activity, :location].each do |term| %>
-          <div class="col-sm-6 col-xs-12">
-            <h3>Pain Per <%=term.to_s.titleize%></h3>
-            <% term_data = @pain_points.filter(max_date: today, min_date: today-length.send(period)).joins(term)
-                .group("#{term.to_s.pluralize}.name").sum(:magnitude).sort{|(k,v),(j,u)| u<=>v} %>
-            <%= chart_or_banner term_data, pie_chart(term_data,
-                                                         library: PainTracker::PIE_CHART_NO_LEGEND)%>
-          </div>
-      <% end %>
+      <%= render partial: 'layouts/group_charts', locals: {pain_points: @pain_points, length: length, min_date: today-length.send(period), max_date: today, period: period, options:{}} %>
   <% end %>
 </div>

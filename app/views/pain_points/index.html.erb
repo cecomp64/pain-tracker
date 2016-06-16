@@ -5,8 +5,8 @@
 <div class="row">
   <div class="col-xs-12">
     <% @filter ||= {} %>
-    <%= link_to 'Show/Hide Filters', '#filters', data: {toggle: 'collapse'}, aria: {expanded: false, controls: 'filters'}%>
-    <div class="row collapse" id="filters">
+    <%= link_to 'Show/Hide Filters', '#filters', data: {toggle: 'collapse'}, aria: {expanded: true, controls: 'filters'}%>
+    <div class="row collapse in" id="filters">
       <%= form_tag(pain_points_path, method: :get) do %>
           <div class="col-xs-12 filters">
             <h2 >Filters</h2>
@@ -15,6 +15,12 @@
                 Clear Filters
             <% end %>
             <%= submit_tag 'Apply Filters', class: 'btn btn-primary btn-sm' %>
+            <%if(!@group.nil?)%>
+                <%= check_box_tag 'group', 'day', checked: true%>
+            <% else %>
+                <%= check_box_tag 'group', 'day' %>
+            <% end %>
+            <%= label_tag('group', 'Group By Day') %>
           </div>
           <div class="col-xs-6 col-sm-6">
             <div class="datetimepicker input-group date" data-date="<%= @filter[:min_date] || DateTime.now %>" data-inline="false">
@@ -100,20 +106,5 @@
   <div class="col-xs-12">
     <%= link_to 'Cleanup Duplicates', cleanup_path %>
   </div>
-
-  <%if !@pain_points.is_a?(Array) %>
-      <div class="col-xs-12">
-        <h2><%=filter_title_for(@pain_points.first, @filter)%> Pain Over Time</h2>
-        <% total_data = @pain_points.group(:date).sum(:magnitude) %>
-        <%= chart_or_banner total_data, line_chart(total_data) %>
-      </div>
-  <% end %>
-
-  <% [:activity, :location].each do |term| %>
-  <div class="col-xs-12 col-sm-6"%>
-    <h2>Pain by <%=term.to_s.titleize%></h2>
-    <% term_data = @pain_points.includes(term).group("#{term.to_s.pluralize}.name").sum(:magnitude) %>
-    <%= chart_or_banner term_data, pie_chart(term_data, library: PainTracker::PIE_CHART_NO_LEGEND) %>
-  </div>
-  <% end %>
+  <%= render partial: 'layouts/group_charts', locals: {pain_points: @pain_points, length: nil, min_date: @filter[:min_date], max_date: @filter[:max_date], period: @group, options: {title: "#{filter_title_for(@pain_points.first, @filter)} Pain Over Time", heading: 2}} %>
 </div>
