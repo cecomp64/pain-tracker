@@ -53,8 +53,17 @@ module ActiveRecord
           mfield = PainPoint.arel_table[mf]
           filtered_query = min ? filtered_query.where(mfield.gteq(value)) : filtered_query.where(mfield.lteq(value))
         else
-          # Handle equality
-          filtered_query = filtered_query.where(field_s => parsed_value)
+          # Handle associations/joins
+          # Assumes that table is association pluralized
+          if(parsed_value.is_a? Hash)
+            parsed_value.each do |join_field, join_value|
+              filtered_query = filtered_query.includes(field).where(field.to_s.pluralize => {join_field => join_value})
+              #filtered_query = filtered_query.where(field => {join_field => join_value})
+            end
+          else
+            # Handle equality
+            filtered_query = filtered_query.where(field_s => parsed_value)
+          end
         end
       end
 

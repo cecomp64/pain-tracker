@@ -7,8 +7,8 @@ $('#<%=@params[:name]%>-form').append('
   <% end %>
 ')
 # Update the form
-$('#<%=@params[:name]%>-list').append('<%= hidden_field_tag "tags[#{@params[:list].size}]", @params[:tag], data: {tag: @params[:tag]} %>')
-$('#<%=@params[:name]%>-form').append('<%= hidden_field_tag "tag_list[list][#{@params[:list].size}]", @params[:tag], data: {tag: @params[:tag]} %>')
+$('#<%=@params[:name]%>-list').append('<%= hidden_field_tag "filter[#{@params[:name]}][name][]", @params[:tag], data: {tag: @params[:tag]} %>')
+$('#<%=@params[:name]%>-form').append('<%= hidden_field_tag "tag_list[list][]", @params[:tag], data: {tag: @params[:tag]} %>')
 
 <% elsif @params[:action] == 'remove' %>
 # Remove the key display

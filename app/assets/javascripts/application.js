@@ -15,7 +15,7 @@
 //= require turbolinks
 //= require bootstrap
 //= require moment
-//= require bootstrap-datetimepicker
+//= require bootstrap-datetimepicker.min
 //= require highcharts
 //= require chartkick
 //= require twitter/typeahead.min

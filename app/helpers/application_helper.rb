@@ -6,7 +6,7 @@ module ApplicationHelper
   def filter_title_for(item, filters)
     return '' if filters.nil?
     titles = filters.map do |filter, value|
-      func = filter.sub('_id', '')
+      func = filter.to_s.sub('_id', '')
       if item.respond_to?(func)
         if item.send(func).respond_to?(:name)
           item.send(func).send(:name).titleize
