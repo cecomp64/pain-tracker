@@ -6,6 +6,7 @@ class PainPointsController < ApplicationController
 
   def index
     @filter = params[:filter] || {}
+    @group = params[:group]
 
     # Try to fix timezones :(
     if(@filter[:min_date])
@@ -25,8 +26,8 @@ class PainPointsController < ApplicationController
     max_point = current_user.pain_points.order(date: :asc).last
 
     # Give some padding just because <= doesn't seem to be equal...
-    @filter[:min_date] ||= min_point ? min_point.date - 1.minute : nil
-    @filter[:max_date] ||= max_point ? max_point.date + 1.minute : nil
+    @filter[:min_date] ||= min_point ? min_point.date - 1.minute : DateTime.now
+    @filter[:max_date] ||= max_point ? max_point.date + 1.minute : DateTime.now
 
     respond_to do |format|
       format.html { }
