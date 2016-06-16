@@ -54,6 +54,7 @@ gem 'twitter-typeahead-rails'
 # Datetime picker
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.37'
+#gem 'bootstrap3-datetimepicker-rails', git: 'https://github.com/cecomp64/bootstrap3-datetimepicker-rails.git'
 
 # Paginator
 gem 'kaminari'

@@ -1,24 +1,24 @@
 
 load_date_picker = ->
-  console.log('Wuuut')
-  #date = new Date()
-  date = $('#datetimepicker12').data('date')
-  console.log('Date: ' + date)
+  $('.datetimepicker').each (i, obj)->
+    console.log('Wuuut')
+    date = $(obj).data('date')
+    console.log('Date: ' + date)
 
-  $('#datetimepicker12').datetimepicker({
-    inline: true,
-    sideBySide: true,
-    defaultDate: date
-  })
+    $(obj).datetimepicker({
+      inline: $(obj).data('inline'),
+      sideBySide: true,
+      defaultDate: date
+    })
 
-  # Set initial value
-  $('#datetimepicker_value').val(date)
+    # Set initial value
+    $(obj).val(date)
 
-  # Update value when date is changed
-  $('#datetimepicker12').on("dp.change", (e) ->
-    console.log('Date changed ' + e.date._d)
-    $('#datetimepicker_value').val(e.date._d)
-  )
+    # Update value when date is changed
+    $(obj).on("dp.change", (e) ->
+      console.log('Date changed ' + e.date._d)
+      $(obj).val(e.date._d)
+    )
 
 
 

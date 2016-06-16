@@ -5,9 +5,28 @@ class PainPointsController < ApplicationController
   respond_to :html, :js
 
   def index
-    @filter = params[:filter]
+    @filter = params[:filter] || {}
+
+    # Try to fix timezones :(
+    if(@filter[:min_date])
+      @filter[:min_date] = DateTime.strptime "#{@filter[:min_date]} #{Time.current.zone}", "%m/%d/%Y %H:%M %P %Z"
+    end
+    if(@filter[:max_date])
+      @filter[:max_date] = DateTime.strptime "#{@filter[:max_date]} #{Time.current.zone}", "%m/%d/%Y %H:%M %P %Z"
+    end
+
+
     @pain_points = current_user.pain_points.includes(:activity).filter(@filter)
     @pain_points_paginated = @pain_points.order(date: :desc).page(params[:page]).per(10)
+    @activities = @filter[:activity] ? @filter[:activity][:name] || [] : []
+    @locations = @filter[:location] ? @filter[:location][:name] || [] : []
+
+    min_point = current_user.pain_points.order(date: :asc).first
+    max_point = current_user.pain_points.order(date: :asc).last
+
+    # Give some padding just because <= doesn't seem to be equal...
+    @filter[:min_date] ||= min_point ? min_point.date - 1.minute : nil
+    @filter[:max_date] ||= max_point ? max_point.date + 1.minute : nil
 
     respond_to do |format|
       format.html { }
@@ -67,6 +86,16 @@ class PainPointsController < ApplicationController
     remove_duplicates Activity
     remove_duplicates Location
     redirect_to pain_points_path
+  end
+
+  def tag_list
+    @params = params[:tag_list]
+    @params[:list] ||= []
+    @class = @params[:name] ? @params[:name].capitalize.constantize : nil
+    # Check that the item actually exists
+    @object = @class.where(name: @params[:tag]).first if @class
+    # Don't add duplicate tags
+    @object = nil if(@params[:list].map{|v| v}.include?(@params[:tag]))
   end
 
   private
