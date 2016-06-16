@@ -13,6 +13,8 @@ load_date_picker = ->
 
     # Set initial value
     $(obj).val(date)
+    # TODO: Make this more generic
+    $('#datetimepicker_value').val(date)
 
     # Update value when date is changed
     $(obj).on("dp.change", (e) ->
