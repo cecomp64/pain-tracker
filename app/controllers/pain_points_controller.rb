@@ -10,10 +10,10 @@ class PainPointsController < ApplicationController
 
     # Try to fix timezones :(
     if(@filter[:min_date])
-      @filter[:min_date] = DateTime.strptime "#{@filter[:min_date]} #{Time.current.zone}", "%m/%d/%Y %H:%M %P %Z"
+      @filter[:min_date] = DateTime.strptime(@filter[:min_date]).change(offset: Time.current.zone)
     end
     if(@filter[:max_date])
-      @filter[:max_date] = DateTime.strptime "#{@filter[:max_date]} #{Time.current.zone}", "%m/%d/%Y %H:%M %P %Z"
+      @filter[:max_date] = DateTime.strptime(@filter[:max_date]).change(offset: Time.current.zone)
     end
 
 
