@@ -19,7 +19,7 @@ load_date_picker = ->
     # Update value when date is changed
     $(obj).on("dp.change", (e) ->
       console.log('Date changed ' + e.date._d)
-      $(obj).val(e.date._d)
+      $('#datetimepicker_value').val(e.date._d)
     )
 
 
