@@ -4,18 +4,15 @@ class PainPointsController < ApplicationController
 
   respond_to :html, :js
 
+  include PainPointsHelper
+
   def index
     @filter = params[:filter] || {}
     @group = params[:group]
 
-    # Try to fix timezones :(
-    if(@filter[:min_date])
-      @filter[:min_date] = DateTime.strptime(@filter[:min_date], '%m/%d/%Y %H:%M %p').change(offset: Time.current.zone)
-    end
-    if(@filter[:max_date])
-      @filter[:max_date] = DateTime.strptime(@filter[:max_date], '%m/%d/%Y %H:%M %p').change(offset: Time.current.zone)
-    end
-
+    # Get actual DateTime objects from strings
+    @filter[:min_date] = str_to_date(@filter[:min_date]) if(@filter[:min_date])
+    @filter[:max_date] = str_to_date(@filter[:max_date]) if(@filter[:max_date])
 
     @pain_points = current_user.pain_points.includes(:activity).filter(@filter)
     @pain_points_paginated = @pain_points.order(date: :desc).page(params[:page]).per(10)

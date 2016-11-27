@@ -50,7 +50,8 @@ module ActiveRecord
 
           # Figure out if this is a min or max
           min = min_max_match[1]
-          mfield = PainPoint.arel_table[mf]
+          model = self.klass
+          mfield = model.arel_table[mf]
           filtered_query = min ? filtered_query.where(mfield.gteq(value)) : filtered_query.where(mfield.lteq(value))
         else
           # Handle associations/joins
